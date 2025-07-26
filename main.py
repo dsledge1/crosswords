@@ -6,6 +6,7 @@ from google.genai import types
 import numpy as np
 from nicegui import ui
 from crosswords.functions.grid_render import *
+from crosswords.functions.grid import *
 
 
 load_dotenv("./api.env")

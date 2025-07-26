@@ -1,5 +1,5 @@
 from nicegui import ui
-from generate_grid import *
+from grid import *
 
 # Grid definition (you'll eventually generate this)
 
