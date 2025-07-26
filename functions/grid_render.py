@@ -1,15 +1,19 @@
 from nicegui import ui
+from generate_grid import *
 
 # Grid definition (you'll eventually generate this)
+
+# Used ChatGPT to help generate below this line as I have essentially no knowledge of UI generation
+# Clue numbers: (row, col) -> number
 grid = [
-    ['#', '#', '#', '#', '#'],
-    ['#', 'H', 'E', 'L', 'L'],
-    ['#', 'A', '#', '#', 'O'],
-    ['#', 'T', 'E', 'S', 'T'],
+    ['', '', '', '#', 'P'],
+    ['S', 'H', 'E', '#', 'L'],
+    ['P', 'A', '#', 'S', 'O'],
+    ['#', 'S', 'E', 'A', 'T'],
     ['#', '#', '#', '#', '#'],
 ]
 
-# Clue numbers: (row, col) -> number
+
 def generate_clue_numbers(grid): 
     clue_numbers = {}
     number = 1
