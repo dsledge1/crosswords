@@ -2,6 +2,15 @@ import numpy as np
 from nicegui import ui
 import random
 
+class Word:
+    def __init__(self, number, direction, row, col, len):
+        self.number = number
+        self.direction = direction
+        self.row = row
+        self.col = col
+        self.len = len
+        self.word = None
+
 class Grid:
     def __init__(self, difficulty=1, theme="default", size=15): 
         if not (10 <= size <= 20):
@@ -16,7 +25,7 @@ class Grid:
         self.seed1 = np.random.randint(low=-1, high=1) #TODO - Make seed more meaningful and impactful, currently using for basic puzzle variation
         self.seed2 = np.random.randint(low=-1, high=1)
         self.theme_rows = []
-        
+        self.words = {}
 
     def generate_grid(self): #TODO - Add sys.argv or some other user input
         for r in range(self.size):
@@ -38,7 +47,7 @@ class Grid:
     def gen_theme_words(self):
         if self.theme == None:   #Handle no theme, generic, easy crossword
             return
-        self.theme_words = ["balrog","returnoftheking","fellowship"]    #Test Hardcoded
+        self.theme_words = ["orcsandwargs","thetwotowers","frodobaggins"]    #Test Hardcoded
         #TODO - Add API call to generate theme words based on theme and difficulty
 
     def place_theme_words(self):
@@ -85,8 +94,52 @@ class Grid:
         for i in range(len_center_block_1):
             self.set_black((self.size//2)-len_center_block_1//2,center_block_1)
 
+    ###TODO - Overhaul the way words are generated and viewed. This needs to be refactored as a graph with words being head->tail paths, edges for intersections.
+    ###If you have time, this is the first thing to come back and fix. 
+
+
+
     def word_reqs(self): #TODO - Generate word requirements (size, letters in common) (Intersections?) (Move to diff function?)
-        pass
+        words = {}
+        num = 1
+        size = self.size
+        numbered = [[None for i in range(size)] for j in range(size)]
+
+        for row in range(size):
+            col = 0
+            while col < size:
+                while col < size and self.cells[row][col]=="#": #for rows that start w black squares
+                    col+=1
+                start_col = col
+                while col < size and self.cells[row][col] != "#": #move forward until a new square -> end of word
+                    col+=1
+                len = col - start_col
+                if len >=3:
+                    if numbered[row][start_col] is None:
+                        numbered[row][start_col] = num
+                        words[f"{num}_acc"] = Word(num,"across",row, start_col, len)
+                        num+=1
+                col+=1
+
+        for col in range(size):
+            row = 0
+            while row < size:
+                while row < size and self.cells[row][col]=="#": #for rows that start w black squares
+                    row+=1
+                start_row = row
+                while row < size and self.cells[row][col] != "#": #move forward until a new square -> end of word
+                    row+=1
+                len = row - start_row
+                if len >=3:
+                    if numbered[start_row][col] is None:
+                        numbered[start_row][col] = num
+                        words[f"{num}_dwn"] = Word(num,"down",start_row, col, len)
+                        num+=1
+                row+=1
+
+        self.words=words
+        for key, slot in self.words.items():
+            print(f"{key}: ({slot.row},{slot.col}), len={slot.len}")
 
     def word_list(self): #TODO - Query ditionary (NLTK library?) to generate words based on word_reqs
         pass
@@ -94,10 +147,12 @@ class Grid:
     def key_gen(self): #TODO - Take word list and assign each word to the correct spot in grid as the answer key
         pass
 
-grid = Grid(1,"default",15)
+grid = Grid(1,"default",12)
 
 grid.generate_grid()
 grid.gen_theme_words()
 grid.place_theme_words()
 grid.gen_black_cells()
 grid.print_grid()
+grid.word_reqs()
+print(grid.words)
