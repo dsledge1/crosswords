@@ -15,12 +15,11 @@ client = genai.Client(api_key=api_key)
 
 """
 def main():
-    print("Hello from crosswords!")"""
 
 
 
 
 
-"""if __name__ == "__main__":
+if __name__ == "__main__":
     main()
     """
