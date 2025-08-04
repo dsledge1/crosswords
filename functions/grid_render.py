@@ -104,7 +104,7 @@ with ui.column().style('gap: 2px;'):
 
                         cell_inputs[(r, c)] = input_box
 
-# JavaScript for basic tab-to-next-cell navigation
+# JavaScript for basic tab-to-next-cell navigation - Used ChatGPT to supply this
 ui.add_head_html('''
 <script>
 document.addEventListener('DOMContentLoaded', () => {
