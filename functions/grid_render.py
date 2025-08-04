@@ -4,13 +4,13 @@ from grid import *
 
 
 #Test Grid
-grid = [
-    ['', '', '', '#', 'P'],
-    ['S', 'H', 'E', '#', 'L'],
-    ['P', 'A', '#', 'S', 'O'],
-    ['#', 'S', 'E', 'A', 'T'],
-    ['#', '#', '#', '#', '#'],
-]
+g = Grid(1,"default", 3)
+dictionary = load_dic("./en_US.dic")
+
+g.solve_with_backtracking(dictionary)
+grid = g.cells
+print(grid)
+
 # Used ChatGPT to help generate below this line as I have essentially no knowledge of UI generation
 
 def generate_clue_numbers(grid): 

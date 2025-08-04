@@ -86,7 +86,7 @@ class Grid:
                 '⬛' if cell == '#' else '⬜'
                 for cell in row
             ))
-
+            
     def gen_theme_words(self):
         if self.theme == None:   #Handle no theme, generic, easy crossword
             return
@@ -208,7 +208,7 @@ class Grid:
                                 word2.intersections.append((idx2, key1, idx1))
 
     def fill_words_from_dict(self, dictionary):
-        available_words = [w for w in dictionary if 3 <= len(w) <= 15]
+        available_words = [w for w in dictionary if 3 <= len(w) <= 3]
         used_words = set()
 
         def get_pattern(word_obj):
@@ -335,3 +335,4 @@ if __name__ == '__main__':
     #dictionary.update(custom)
     grid.solve_with_backtracking(dictionary)
     grid.print_grid()
+    print(grid.cells)
